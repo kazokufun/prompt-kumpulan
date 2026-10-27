@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO & Social Open Graph Meta Tags -->
+  <title>Prompt Studio &mdash; Streaming Style AI Video &amp; Image Showcase</title>
+  <meta name="description" content="Dashboard galeri AI sinematik bertema streaming untuk Text-to-Video dan Text-to-Image dengan prompt siap pakai dan integrasi Supabase.">
+  <meta name="author" content="Kaz Prompt Studio">
+  <meta property="og:title" content="Prompt Studio — AI Video &amp; Image Showcase">
+  <meta property="og:description" content="Koleksi karya sinematik AI Text-to-Video dan Text-to-Image dengan teks prompt lengkap.">
+  <meta property="og:image" content="assets/images/hero_red.jpg">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Branded SVG Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e50914'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Montserrat:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- ====================================================================
+         LEFT VERTICAL SIDEBAR PILL
+         ==================================================================== -->
+    <aside class="app-sidebar" aria-label="Navigasi Utama">
+      <div class="sidebar-top">
+        <!-- Logo Icon -->
+        <a href="#" class="sidebar-logo" id="sidebarLogo" title="Prompt Studio Home">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        </a>
+
+        <!-- Main Nav Group -->
+        <div class="sidebar-nav-group">
+          <span class="sidebar-section-label">MAIN</span>
+          
+          <button type="button" class="sidebar-icon-btn active" id="btnNavHome" data-tooltip="Beranda &amp; Semua Karya">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+          </button>
+
+          <button type="button" class="sidebar-icon-btn" id="btnNavSearch" data-tooltip="Pencarian Prompt (/)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+
+          <button type="button" class="sidebar-icon-btn" id="btnNavVideo" data-tooltip="Text-to-Video">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="23 7 16 12 23 17 23 7"></polygon>
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+            </svg>
+          </button>
+
+          <button type="button" class="sidebar-icon-btn" id="btnNavImage" data-tooltip="Text-to-Image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+          </button>
+
+          <button type="button" class="sidebar-icon-btn" id="btnNavAddPrompt" data-tooltip="Tambah Karya Baru (+)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Settings Group -->
+        <div class="sidebar-nav-group">
+          <span class="sidebar-section-label">SETTINGS</span>
+          
+          <button type="button" class="sidebar-icon-btn" id="btnNavSupabase" data-tooltip="Koneksi Database Supabase">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/>
+            </svg>
+          </button>
+
+          <button type="button" class="sidebar-icon-btn" id="btnNavGuide" data-tooltip="Panduan Penggunaan">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Bottom User Profile Avatar -->
+      <div class="sidebar-bottom">
+        <button type="button" class="user-avatar-btn" id="btnUserProfile" title="Pengguna: Kaz Prompt Creator">
+          <img src="assets/images/samurai.jpg" alt="User Profile">
+        </button>
+      </div>
+    </aside>
+
+    <!-- ====================================================================
+         MAIN WORKSPACE CONTENT
+         ==================================================================== -->
+    <main class="app-main">
+      <!-- ==================================================================
+           ROW 1: HERO CARD (LEFT) & BROWSE CARD (RIGHT) - FLUSH AT TOP
+           ================================================================== -->
+      <section class="bento-row-top" aria-label="Sorotan Utama">
+        <!-- 1. Hero Card (Stranger Things Crimson Red Style) -->
+        <article class="hero-card" id="heroFeaturedCard">
+          <img src="assets/images/hero_red.jpg" alt="Dark Redemption Featured" class="hero-backdrop-img">
+          <div class="hero-vignette"></div>
+
+          <!-- Hero Top Badges -->
+          <div class="hero-top-badges">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge-live-stream">
+                <span class="live-dot"></span>
+                Now Streaming
+              </span>
+
+              <!-- Integrated DB Status Badge -->
+              <button type="button" class="db-status-badge" id="dbStatusBadge" title="Status Database: Klik untuk konfigurasi Supabase">
+                <span class="db-status-dot" id="dbStatusDot"></span>
+                <span class="db-status-text" id="dbStatusText">Data Lokal</span>
+              </button>
+            </div>
+
+            <div class="hero-meta-pills">
+              <!-- Integrated Add Prompt Button -->
+              <button type="button" class="btn-header-action" id="btnOpenAddModal" title="Tambah Karya Baru">
+                <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+                </svg>
+                <span>Tambah Karya</span>
+              </button>
+
+              <span class="meta-pill">IMDb 9.2</span>
+              <span class="meta-pill">Match: 86%</span>
+              <span class="meta-pill">2h 15m</span>
+              <span class="meta-pill">Top 10 Today</span>
+            </div>
+          </div>
+
+          <!-- Hero Center Content -->
+          <div class="hero-center-content">
+            <h1 class="hero-title-main">DARK REDEMPTION</h1>
+            <p class="hero-subtitle">
+              "Epic cinematic wide poster of a dark sci-fi thriller, intense crimson red lighting, mist and lightning storm..."
+            </p>
+          </div>
+
+          <!-- Hero Bottom Row -->
+          <div class="hero-bottom-actions">
+            <button type="button" class="btn-watch-now" id="btnHeroWatchNow">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              <span>Watch now</span>
+            </button>
+
+            <div class="hero-pagination-dots">
+              <span class="hero-dot active"></span>
+              <span class="hero-dot"></span>
+              <span class="hero-dot"></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2. Browse Card (Signature Off-White Aesthetic) -->
+        <aside class="browse-card" aria-label="Kategori Populer">
+          <h2 class="browse-card-title">Browse</h2>
+
+          <div class="browse-list" id="browseListContainer">
+            <!-- Item 1: Sci-Fi -->
+            <button type="button" class="browse-item" data-category="Sci-Fi">
+              <div class="browse-item-left">
+                <div class="browse-item-avatar">
+                  <img src="assets/images/mecha.jpg" alt="Sci-Fi">
+                </div>
+                <div>
+                  <div class="browse-item-name">Sci-Fi</div>
+                  <div class="browse-item-count">4 karya</div>
+                </div>
+              </div>
+              <span class="browse-chevron">&rsaquo;</span>
+            </button>
+
+            <!-- Item 2: Cyberpunk -->
+            <button type="button" class="browse-item" data-category="Cyberpunk">
+              <div class="browse-item-left">
+                <div class="browse-item-avatar">
+                  <img src="assets/images/samurai.jpg" alt="Cyberpunk">
+                </div>
+                <div>
+                  <div class="browse-item-name">Cyberpunk</div>
+                  <div class="browse-item-count">4 karya</div>
+                </div>
+              </div>
+              <span class="browse-chevron">&rsaquo;</span>
+            </button>
+
+            <!-- Item 3: Cinematic -->
+            <button type="button" class="browse-item" data-category="Cinematic">
+              <div class="browse-item-left">
+                <div class="browse-item-avatar">
+                  <img src="assets/images/hero_red.jpg" alt="Cinematic">
+                </div>
+                <div>
+                  <div class="browse-item-name">Cinematic</div>
+                  <div class="browse-item-count">3 karya</div>
+                </div>
+              </div>
+              <span class="browse-chevron">&rsaquo;</span>
+            </button>
+
+            <!-- Item 4: Fantasy -->
+            <button type="button" class="browse-item" data-category="Fantasy">
+              <div class="browse-item-left">
+                <div class="browse-item-avatar">
+                  <img src="assets/images/jellyfish.jpg" alt="Fantasy">
+                </div>
+                <div>
+                  <div class="browse-item-name">Fantasy</div>
+                  <div class="browse-item-count">3 karya</div>
+                </div>
+              </div>
+              <span class="browse-chevron">&rsaquo;</span>
+            </button>
+          </div>
+
+          <button type="button" class="btn-explore-more" id="btnExploreMore">
+            EXPLORE MORE
+          </button>
+        </aside>
+      </section>
+
+      <!-- ==================================================================
+           ROW 2: 3 BOTTOM CARDS (CONTINUE, TOP PICK, NOW PLAYING)
+           ================================================================== -->
+      <section class="bento-row-bottom" aria-label="Rekomendasi Cepat">
+        <!-- Card 1: Continue Watching -->
+        <article class="bento-bottom-card" id="cardContinueWatching">
+          <img src="assets/images/mecha.jpg" alt="Continue Watching" class="bento-bg-media">
+          <div class="bento-vignette-overlay"></div>
+
+          <div class="bento-content-top">
+            <div>
+              <h3 class="bento-card-title">Continue Watching</h3>
+              <p class="bento-card-sub">Dune v2 &bull; Sandstorm Awakening</p>
+            </div>
+          </div>
+
+          <div class="bento-content-bottom">
+            <div class="continue-timeline">
+              <div class="continue-time-text">
+                <span>01:35 / 02:10</span>
+                <span>34 min left</span>
+              </div>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill"></div>
+              </div>
+            </div>
+
+            <div class="continue-actions">
+              <button type="button" class="btn-resume" id="btnResumeMecha">
+                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <span>Resume</span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 2: Top Pick for You -->
+        <article class="bento-bottom-card" id="cardTopPick">
+          <img src="assets/images/samurai.jpg" alt="Top Pick" class="bento-bg-media">
+          <div class="bento-vignette-overlay"></div>
+
+          <div class="bento-content-top">
+            <h3 class="bento-card-title">Top Pick for You</h3>
+            
+            <div class="carousel-arrows">
+              <button type="button" class="carousel-btn" id="btnPickPrev">&lsaquo;</button>
+              <button type="button" class="carousel-btn" id="btnPickNext">&rsaquo;</button>
+            </div>
+          </div>
+
+          <div class="bento-content-bottom">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+              <div>
+                <div style="font-weight: 700; font-size: 1rem;" id="topPickTitle">Deadpool Ronin</div>
+                <div class="bento-card-sub" id="topPickSub">Action &bull; 2026</div>
+              </div>
+
+              <div class="toggle-switch-wrap">
+                <span class="toggle-label">Watchlist</span>
+                <div class="toggle-pill active" id="watchlistToggle">
+                  <span class="toggle-thumb"></span>
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="btn-top-pick-watch" id="btnTopPickWatch">
+              <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <span>Watch now</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- Card 3: Now Playing / Player Controls -->
+        <article class="bento-bottom-card" id="cardNowPlaying">
+          <img src="assets/images/geisha.jpg" alt="Now Playing" class="bento-bg-media" id="nowPlayingMedia">
+          <div class="bento-vignette-overlay"></div>
+
+          <div class="bento-content-top">
+            <div>
+              <h3 class="bento-card-title">Now Playing</h3>
+              <p class="bento-card-sub" id="nowPlayingSub">Wednesday S4:E3 &bull; Kintsugi</p>
+            </div>
+
+            <div class="toggle-switch-wrap">
+              <span class="toggle-label">Autoplay</span>
+              <div class="toggle-pill active" id="autoplayToggle">
+                <span class="toggle-thumb"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bento-content-bottom">
+            <!-- Scrubber line -->
+            <div class="progress-bar-wrap" style="margin-bottom: 10px;">
+              <div class="progress-bar-fill" style="width: 45%;"></div>
+            </div>
+
+            <div class="media-player-controls">
+              <!-- Playlist icon -->
+              <button type="button" class="player-icon-btn" title="Playlist">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
+                </svg>
+              </button>
+
+              <!-- Rewind -->
+              <button type="button" class="player-icon-btn" title="Sebelumnya">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/>
+                </svg>
+              </button>
+
+              <!-- Circle Play Button -->
+              <button type="button" class="player-circle-play" id="btnCirclePlay" title="Putar">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" id="circlePlayIcon">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </button>
+
+              <!-- Fast Forward -->
+              <button type="button" class="player-icon-btn" title="Berikutnya">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
+                </svg>
+              </button>
+
+              <!-- Fullscreen -->
+              <button type="button" class="player-icon-btn" id="btnNowPlayingFull" title="Layar Penuh">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ==================================================================
+           FULL GALLERY SHOWCASE SECTION (BELOW BENTO)
+           ================================================================== -->
+      <section class="gallery-section-wrapper" id="gallerySection">
+        <div class="section-header-row">
+          <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+            <h2 class="section-title">Katalog Semua Prompt &amp; Video AI</h2>
+            <div id="activeCategoryBadge" style="display: none;"></div>
+          </div>
+
+          <div class="hero-meta-pills">
+            <span class="meta-pill" id="statTotalBadge">11 Total Karya</span>
+            <span class="meta-pill" id="statVideosBadge">4 Video AI</span>
+            <span class="meta-pill" id="statImagesBadge">7 Gambar AI</span>
+          </div>
+        </div>
+
+        <!-- Controls Bar (Filter Tabs + Search) -->
+        <div class="gallery-controls-bar">
+          <div class="filter-tabs" role="tablist">
+            <button class="filter-tab active" data-filter="all" role="tab">Semua Karya</button>
+            <button class="filter-tab" data-filter="video" role="tab">
+              <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              Text-to-Video
+            </button>
+            <button class="filter-tab" data-filter="image" role="tab">
+              <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+              Text-to-Image
+            </button>
+          </div>
+
+          <div class="search-wrapper">
+            <svg class="search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <input 
+              type="search" 
+              class="search-input" 
+              id="searchInput" 
+              placeholder="Cari prompt, gaya, model... (Tekan /)"
+              autocomplete="off"
+            >
+          </div>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="gallery-grid" id="galleryGrid">
+          <!-- Injected dynamically via app.js -->
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ====================================================================
+       LIGHTBOX / DETAIL MODAL
+       ==================================================================== -->
+  <div class="modal-overlay" id="mediaModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-nav-arrow modal-nav-prev" id="modalNavPrev" title="Karya Sebelumnya (Panah Kiri)">&lsaquo;</button>
+    <button class="modal-nav-arrow modal-nav-next" id="modalNavNext" title="Karya Berikutnya (Panah Kanan)">&rsaquo;</button>
+
+    <div class="modal-container">
+      <button class="modal-close-btn" id="modalCloseBtn" title="Tutup (Esc)">&times;</button>
+
+      <!-- Media Side (Left) -->
+      <div class="modal-media-side" id="modalMediaSide"></div>
+
+      <!-- Info Side (Right) -->
+      <div class="modal-info-side">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+          <span class="media-type-badge" id="modalTypeBadge"></span>
+        </div>
+
+        <h2 id="modalTitle" style="font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 8px;">Judul Karya</h2>
+        <p id="modalDesc" style="color: var(--text-dim); font-size: 0.875rem; margin-bottom: 18px;">Deskripsi karya.</p>
+
+        <div style="font-size: 0.725rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px;">Prompt Teks</div>
+        <div id="modalPromptText" style="background: #07080c; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; font-family: var(--font-mono); font-size: 0.825rem; color: #e5e7eb; margin-bottom: 16px; word-break: break-word;"></div>
+
+        <div id="modalNegativeBlock" style="display: none;">
+          <div style="font-size: 0.725rem; font-weight: 700; color: #fb7185; text-transform: uppercase; margin-bottom: 6px;">Negative Prompt</div>
+          <div id="modalNegativeText" style="background: rgba(229,9,20,0.06); border: 1px solid rgba(229,9,20,0.2); border-radius: 10px; padding: 10px; font-family: var(--font-mono); font-size: 0.775rem; color: #fca5a5; margin-bottom: 16px; word-break: break-word;"></div>
+        </div>
+
+        <div class="form-row" style="margin-bottom: 16px;">
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-card); border-radius: 10px; padding: 8px 12px;">
+            <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Aspek Rasio</div>
+            <div id="modalAspectRatio" style="font-size: 0.85rem; font-weight: 600;">16:9</div>
+          </div>
+          <div id="modalModelWrap" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-card); border-radius: 10px; padding: 8px 12px;">
+            <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Model AI</div>
+            <div id="modalModel" style="font-size: 0.85rem; font-weight: 600;">-</div>
+          </div>
+        </div>
+
+        <div style="font-size: 0.725rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px;">Kategori &amp; Tag</div>
+        <div id="modalTags" style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px;"></div>
+
+        <div class="modal-actions-row">
+          <button type="button" class="btn-modal-copy" id="btnModalCopy" title="Salin seluruh teks prompt">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+            </svg>
+            <span>Salin Prompt Lengkap</span>
+          </button>
+
+          <button type="button" class="btn-modal-download" id="btnModalDownload" title="Download Media Asli">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            </svg>
+            <span>Download</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       SUPABASE SETTINGS MODAL
+       ==================================================================== -->
+  <div class="modal-overlay" id="supabaseModal" role="dialog" aria-modal="true" aria-labelledby="supabaseModalTitle">
+    <div class="guide-modal-container">
+      <button class="modal-close-btn" id="supabaseCloseBtn">&times;</button>
+      
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+        <h2 id="supabaseModalTitle" style="font-family: var(--font-heading); font-size: 1.4rem;">
+          Koneksi Database Supabase
+        </h2>
+      </div>
+
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-card); border-radius: 14px; padding: 14px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="db-status-dot" id="modalDbStatusDot"></span>
+          <div>
+            <div style="font-weight: 700; font-size: 0.9rem;" id="modalDbStatusTitle">Mode Data Lokal</div>
+            <div style="font-size: 0.75rem; color: var(--text-dim);" id="modalDbStatusSub">Data dibaca dari file lokal (js/data.js)</div>
+          </div>
+        </div>
+        <button type="button" class="btn-resume" id="btnDisconnectSupabase" style="display: none; background: rgba(229,9,20,0.2); border-color: rgba(229,9,20,0.4); color: #fca5a5;">
+          Putuskan
+        </button>
+      </div>
+
+      <form id="supabaseConfigForm">
+        <div class="form-group">
+          <label class="form-label" for="supabaseUrlInput">Project URL Supabase</label>
+          <input type="url" id="supabaseUrlInput" class="form-input" placeholder="https://your-project.supabase.co" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="supabaseKeyInput">Project API Anon Key</label>
+          <input type="password" id="supabaseKeyInput" class="form-input" placeholder="eyJhbGciOi..." required>
+        </div>
+
+        <button type="submit" class="btn-watch-now" style="width: 100%; justify-content: center; margin-top: 14px;">
+          Simpan &amp; Hubungkan Supabase
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       ADD NEW PROMPT MODAL
+       ==================================================================== -->
+  <div class="modal-overlay" id="addModal" role="dialog" aria-modal="true" aria-labelledby="addModalTitle">
+    <div class="guide-modal-container" style="max-height: 90vh; overflow-y: auto;">
+      <button class="modal-close-btn" id="addModalCloseBtn">&times;</button>
+
+      <h2 id="addModalTitle" style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 16px;">
+        Tambah Karya Prompt Baru
+      </h2>
+
+      <form id="addPromptForm">
+        <div class="form-group">
+          <label class="form-label" for="newTitle">Judul Karya *</label>
+          <input type="text" id="newTitle" class="form-input" placeholder="Contoh: Cyberpunk Ronin Under Rain" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="newType">Tipe Media *</label>
+            <select id="newType" class="form-select" required>
+              <option value="image">Text to Image (Gambar)</option>
+              <option value="video">Text to Video (Video)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="newAspectRatio">Aspek Rasio *</label>
+            <select id="newAspectRatio" class="form-select" required>
+              <option value="16:9">16:9 (Lanskap)</option>
+              <option value="1:1">1:1 (Persegi)</option>
+              <option value="9:16">9:16 (Vertikal)</option>
+              <option value="4:3">4:3 (Klasik)</option>
+              <option value="3:4">3:4 (Potret)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="newPrompt">Teks Prompt Utama *</label>
+          <textarea id="newPrompt" class="form-textarea" placeholder="Tuliskan prompt AI lengkap..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="newNegativePrompt">Negative Prompt (Opsional)</label>
+          <textarea id="newNegativePrompt" class="form-textarea" style="min-height: 50px;" placeholder="Hal-hal yang dihindari..."></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="newMediaUrl">URL Media File (Video/Gambar) *</label>
+            <input type="text" id="newMediaUrl" class="form-input" placeholder="assets/images/... atau URL Cloud" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="newThumbnailUrl">URL Thumbnail (Opsional)</label>
+            <input type="text" id="newThumbnailUrl" class="form-input" placeholder="assets/images/...">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="newModel">Model AI (Opsional)</label>
+            <input type="text" id="newModel" class="form-input" placeholder="Midjourney / Runway / Kling">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="newTags">Kategori &amp; Tag (Pisahkan dengan koma)</label>
+            <input type="text" id="newTags" class="form-input" placeholder="Action, Sci-Fi, Cyberpunk">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="newDesc">Deskripsi Singkat (Opsional)</label>
+          <input type="text" id="newDesc" class="form-input" placeholder="Catatan karya...">
+        </div>
+
+        <button type="submit" class="btn-watch-now" style="width: 100%; justify-content: center; margin-top: 14px;">
+          Publikasikan Karya
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Guide Modal -->
+  <div class="modal-overlay" id="guideModal" role="dialog" aria-modal="true">
+    <div class="guide-modal-container">
+      <button class="modal-close-btn" id="guideCloseBtn">&times;</button>
+      <h2 style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 12px;">Panduan Prompt Studio</h2>
+      <p style="color: var(--text-dim); font-size: 0.875rem; line-height: 1.6; margin-bottom: 14px;">
+        Website ini menampilkan karya AI bertema streaming dashboard sinematik. Anda dapat:
+      </p>
+      <ul style="color: var(--text-dim); font-size: 0.85rem; line-height: 1.7; padding-left: 20px;">
+        <li>Menonton cuplikan gerak video AI secara langsung.</li>
+        <li>Menyalin prompt lengkap ke clipboard dalam sekali klik.</li>
+        <li>Menyaring karya berdasarkan kategori di widget <strong>Browse</strong> (Action, Drama, Thriller, Comedy).</li>
+        <li>Menghubungkan ke <strong>Supabase</strong> untuk penyimpanan database online tak terbatas.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-notification" id="toastNotification" role="alert" aria-live="polite">
+    <div class="toast-icon">&check;</div>
+    <span class="toast-text" id="toastText">Prompt berhasil disalin!</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
